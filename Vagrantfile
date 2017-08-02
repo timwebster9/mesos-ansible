@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
 		slave.vm.provision "shell", inline: "systemctl restart network"
 
 		# Activate RH subscription - change to use your credentials
-		slave.vm.provision "shell", inline: "subscription-manager register --username <username> --password <password> --auto-attach"
+		slave.vm.provision "shell", path: "register.sh"
 
 		# Add extra repos needed for Mesos dependencies
 		slave.vm.provision "shell", inline: "subscription-manager repos --enable rhel-7-server-optional-rpms"
