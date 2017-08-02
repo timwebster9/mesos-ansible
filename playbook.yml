@@ -1,0 +1,7 @@
+- name: Mesos [slave]
+  hosts: all
+  sudo: yes
+  roles:
+    - role: ansible-mesos
+      mesos_install_mode: slave
+      mesos_containerizers: "mesos"
