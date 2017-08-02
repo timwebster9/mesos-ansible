@@ -1,7 +1,7 @@
 # Ansible Mesos
 Provision Mesos with Ansible
 
-Based on [https://github.com/AnsibleShipyard/ansible-mesos] and updated for RHEL 7.3
+Based on https://github.com/AnsibleShipyard/ansible-mesos and updated for RHEL 7.3
 
 ## Usage
 This can run against a Vagrant box for testing.  The box provided is RHEL 7.3 and needs to be registered using your Red Hat Developer Program subscription credentials.
