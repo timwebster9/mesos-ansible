@@ -21,6 +21,10 @@ Vagrant.configure("2") do |config|
 
 		# Add extra repos needed for Mesos dependencies
 		slave.vm.provision "shell", inline: "subscription-manager repos --enable rhel-7-server-optional-rpms"
+		slave.vm.provision "shell", inline: "subscription-manager repos --enable=rhel-7-server-extras-rpms"
+
+		# Dodgy CentOS install of Docker just for testing
+		slave.vm.provision "shell", path: "install-docker.sh"
 
 		slave.vm.provision "ansible_local" do |ansible|
 			ansible.verbose = "v"

@@ -4,4 +4,3 @@
   roles:
     - role: ansible-mesos
       mesos_install_mode: slave
-      mesos_containerizers: "mesos"
