@@ -4,3 +4,4 @@
   roles:
     - role: ansible-mesos
       mesos_install_mode: slave
+      mesos_ip: 192.168.56.11

@@ -29,6 +29,9 @@ mesos_zookeeper_masters: "zk://{{ zookeeper_hostnames }}/mesos"
 mesos_owner: root
 mesos_group: root
 
+# Slave settings
+mesos_master: "192.168.56.10"
+
 # Containerizer
 mesos_containerizers: "docker,mesos"
 mesos_executor_timeout: "5mins"
