@@ -22,7 +22,7 @@ __NOTE:__ The scripts in the `scripts` directory are only required for local Vag
 
 This can run against a Vagrant box for testing.  The box provided is RHEL 7.3 and needs to be registered using your [Red Hat Developer Program](https://developers.redhat.com/register) subscription credentials.
 
-To enable registration, create a file called 'register.sh' in the `scripts` directory of this project with the following content (substituting your credentials):
+To enable registration, create a file called `register.sh` in the `scripts` directory of this project with the following content (substituting your credentials):
 
     subscription-manager register --username <username> --password <password> --auto-attach
 
