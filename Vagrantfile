@@ -14,16 +14,16 @@ Vagrant.configure("2") do |config|
 		end
 
 		# Workaround for possible Vagrant bug where host-only network interface doesn't come up
-		master.vm.provision "shell", inline: "systemctl restart network"
+		master.vm.provision "shell", path: "scripts/network.sh"
+
+		# disable firewall
+		master.vm.provision "shell", path: "scripts/firewall.sh"
 
 		# Activate RH subscription - change to use your credentials
-		master.vm.provision "shell", path: "register.sh"
+		master.vm.provision "shell", path: "scripts/register.sh"
 
 		# Add extra repos needed for Mesos dependencies
 		master.vm.provision "shell", inline: "subscription-manager repos --enable rhel-7-server-optional-rpms"
-
-		# disable firewall
-		master.vm.provision "shell", inline: "systemctl stop firewalld && systemctl disable firewalld"
 
 		master.vm.provision "ansible" do |ansible|
 			ansible.verbose = "v"
@@ -42,20 +42,20 @@ Vagrant.configure("2") do |config|
 		end
 
 		# Workaround for possible Vagrant bug where host-only network interface doesn't come up
-		slave.vm.provision "shell", inline: "systemctl restart network"
+		slave.vm.provision "shell", path: "scripts/network.sh"
+
+		# disable firewall
+		slave.vm.provision "shell", path: "scripts/firewall.sh"
 
 		# Activate RH subscription - change to use your credentials
-		slave.vm.provision "shell", path: "register.sh"
+		slave.vm.provision "shell", path: "scripts/register.sh"
 
 		# Add extra repos needed for Mesos dependencies
 		slave.vm.provision "shell", inline: "subscription-manager repos --enable rhel-7-server-optional-rpms"
 		slave.vm.provision "shell", inline: "subscription-manager repos --enable=rhel-7-server-extras-rpms"
 
 		# Dodgy CentOS install of Docker just for testing
-		slave.vm.provision "shell", path: "install-docker.sh"
-
-		# disable firewall
-		slave.vm.provision "shell", inline: "systemctl stop firewalld && systemctl disable firewalld"
+		slave.vm.provision "shell", path: "scripts/install-docker.sh"
 
 		slave.vm.provision "ansible" do |ansible|
 			ansible.verbose = "v"
