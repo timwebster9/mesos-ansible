@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
 		# disable firewall
 		master.vm.provision "shell", inline: "systemctl stop firewalld && systemctl disable firewalld"
 
-		master.vm.provision "ansible_local" do |ansible|
+		master.vm.provision "ansible" do |ansible|
 			ansible.verbose = "v"
 			ansible.playbook = "playbook-master.yml"
 		end
@@ -57,7 +57,7 @@ Vagrant.configure("2") do |config|
 		# disable firewall
 		slave.vm.provision "shell", inline: "systemctl stop firewalld && systemctl disable firewalld"
 
-		slave.vm.provision "ansible_local" do |ansible|
+		slave.vm.provision "ansible" do |ansible|
 			ansible.verbose = "v"
 			ansible.playbook = "playbook-slave.yml"
 		end
