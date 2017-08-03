@@ -3,6 +3,16 @@ Provision Mesos with Ansible
 
 Based on https://github.com/AnsibleShipyard/ansible-mesos and updated for RHEL 7.3
 
+## Requirements
+The following must be installed on your host:
+* VirtualBox
+* Vagrant
+* Ansible
+
+If you are running from Windows or don't want to install Ansible, you can change to use [Ansible local provisioner](https://www.vagrantup.com/docs/provisioning/ansible_local.html). e.g. in the Vagrantfile:
+
+    slave.vm.provision "ansible_local" do |ansible|
+
 ## Usage
 This can run against a Vagrant box for testing.  The box provided is RHEL 7.3 and needs to be registered using your Red Hat Developer Program subscription credentials.
 
