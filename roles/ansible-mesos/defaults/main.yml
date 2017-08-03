@@ -31,6 +31,8 @@ mesos_group: root
 
 # Slave settings
 mesos_master: "192.168.56.10"
+mesos_slave_workdir: "/var/lib/mesos/slave"
+mesos_docker_registry: "https://combined-registry.sbx.zone"
 
 # Containerizer
 mesos_containerizers: "docker,mesos"

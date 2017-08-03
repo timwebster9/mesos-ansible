@@ -78,3 +78,11 @@
 - name: Enable/Disable mesos-slave service
   service: name=mesos-slave enabled="{{ (mesos_install_mode == 'master') | ternary('no', 'yes') }}"
   when: systemd_check.stat.exists == true
+
+- name: Create docker config dir
+  file: path=/root/.docker state=directory mode=0700
+  when: mesos_containerizers | search("docker")
+
+- name: Install docker config
+  template: src=conf-docker.j2 dest=/root/.docker/config.json
+  when: mesos_containerizers | search("docker")
