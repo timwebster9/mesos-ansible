@@ -20,6 +20,7 @@ export LIBPROCESS_SSL_REQUIRE_CERT=false
 # mesos env variables
 # see http://mesos.apache.org/documentation/latest/configuration/
 export MESOS_HOSTNAME="{{ mesos_hostname }}"
+export MESOS_EXTERNAL_LOG_FILE="mesos.log"
 
 # Additional configs
 export MESOS_OPTION_PREFIX={{mesos_option_prefix}}

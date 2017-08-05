@@ -7,7 +7,6 @@ export MESOS_PORT="{{ mesos_slave_port }}"
 export MESOS_WORK_DIR="{{ mesos_slave_workdir }}"
 export MESOS_DOCKER_REGISTRY="{{ mesos_docker_registry }}"
 export MESOS_DOCKER_CONFIG="file:///root/.docker/config.json"
-export MESOS_EXTERNAL_LOG_FILE="mesos-slave.log"
 
 # Additional configs
 {% for config_item in mesos_slave_additional_configs %}

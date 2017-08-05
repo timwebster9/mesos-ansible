@@ -16,6 +16,12 @@
 - name: Remove Default Mesos-Slave Config
   file: state=absent path=/etc/mesos-slave/
 
+- name: Remove Existing Zookeeper id
+  file: state=absent path=/var/lib/zookeeper/myid
+
+- name: Remove Existing Zookeeper config
+  file: state=absent path=/etc/zookeeper/conf/zoo.cfg
+
 # == Configure and recreate
 - name: Mesos default config file
   template: src=conf-mesos.j2 dest=/etc/default/mesos
@@ -57,6 +63,24 @@
   stat: path=/lib/systemd/system/
   register: systemd_check
 
+- name: Zookeeper ID file
+  template: src=myid.j2 dest=/var/lib/zookeeper/myid
+  when: (mesos_install_mode == "master" or mesos_install_mode == "master-slave")
+
+- name: Zookeeper conf file
+  template: src=zoo.cfg.j2 dest=/etc/zookeeper/conf/zoo.cfg
+  when: (mesos_install_mode == "master" or mesos_install_mode == "master-slave")
+
+- name: Zookeeper systemd script
+  template: src=zookeeper.service.j2 dest=/lib/systemd/system/zookeeper.service
+  when: (mesos_install_mode == "master" or mesos_install_mode == "master-slave") and systemd_check.stat.exists == true
+  notify:
+    - Reload daemon
+
+- name: Start Zookeeper service
+  service: name=zookeeper state=started
+  when: (mesos_install_mode == "master" or mesos_install_mode == "master-slave") and systemd_check.stat.exists == true
+
 - name: Mesos master systemd script
   template: src=mesos-master.service.j2 dest=/lib/systemd/system/mesos-master.service
   when: (mesos_install_mode == "master" or mesos_install_mode == "master-slave") and systemd_check.stat.exists == true
@@ -71,23 +95,16 @@
     - Reload daemon
     - Restart mesos-slave
 
+- name: Enable/Disable Zookeeper service
+  service: name=zookeeper enabled="{{ (mesos_install_mode == 'slave') | ternary('no', 'yes') }}"
+  when: systemd_check.stat.exists == true
+
 - name: Enable/Disable mesos-master service
   service: name=mesos-master enabled="{{ (mesos_install_mode == 'slave') | ternary('no', 'yes') }}"
   when: systemd_check.stat.exists == true
 
 - name: Enable/Disable mesos-slave service
   service: name=mesos-slave enabled="{{ (mesos_install_mode == 'master') | ternary('no', 'yes') }}"
-  when: systemd_check.stat.exists == true
-
-- name: Zookeeper systemd script
-  template: src=zookeeper.service.j2 dest=/lib/systemd/system/zookeeper.service
-  when: (mesos_install_mode == "master" or mesos_install_mode == "master-slave") and systemd_check.stat.exists == true
-  notify:
-    - Reload daemon
-    - Restart zookeeper
-
-- name: Enable/Disable Zookeeper service
-  service: name=zookeeper enabled="{{ (mesos_install_mode == 'slave') | ternary('no', 'yes') }}"
   when: systemd_check.stat.exists == true
 
 - name: Create docker config dir
