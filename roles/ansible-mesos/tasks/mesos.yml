@@ -79,6 +79,17 @@
   service: name=mesos-slave enabled="{{ (mesos_install_mode == 'master') | ternary('no', 'yes') }}"
   when: systemd_check.stat.exists == true
 
+- name: Zookeeper systemd script
+  template: src=zookeeper.service.j2 dest=/lib/systemd/system/zookeeper.service
+  when: (mesos_install_mode == "master" or mesos_install_mode == "master-slave") and systemd_check.stat.exists == true
+  notify:
+    - Reload daemon
+    - Restart zookeeper
+
+- name: Enable/Disable Zookeeper service
+  service: name=zookeeper enabled="{{ (mesos_install_mode == 'slave') | ternary('no', 'yes') }}"
+  when: systemd_check.stat.exists == true
+
 - name: Create docker config dir
   file: path=/root/.docker state=directory mode=0700
   when: mesos_containerizers | search("docker")

@@ -13,5 +13,6 @@
     - unzip
     - libselinux-python 
     - python-setuptools
+    - mesosphere-zookeeper
     - mesos-{{mesos_version}}
     

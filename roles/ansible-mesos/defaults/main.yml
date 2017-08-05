@@ -29,8 +29,11 @@ mesos_zookeeper_masters: "zk://{{ zookeeper_hostnames }}/mesos"
 mesos_owner: root
 mesos_group: root
 
+# Master settings
+mesos_master_workdir: "/var/lib/mesos/master"
+
 # Slave settings
-mesos_master: "192.168.56.10"
+mesos_master: "10.168.56.10"
 mesos_slave_workdir: "/var/lib/mesos/slave"
 mesos_docker_registry: "https://combined-registry.sbx.zone"
 
