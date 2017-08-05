@@ -14,20 +14,24 @@
 # limitations under the License.
 
 maxClientCnxns=50
+
 # The number of milliseconds of each tick
 tickTime=2000
+
 # The number of ticks that the initial
 # synchronization phase can take
 initLimit=10
+
 # The number of ticks that can pass between
 # sending a request and getting an acknowledgement
 syncLimit=5
+
 # the directory where the snapshot is stored.
 dataDir=/var/lib/zookeeper
+
 # the port at which the clients will connect
-clientPort=2181
+clientPort={{ zookeeper_client_port }}
 
-server.1=192.168.56.10:2888:3888
-server.2=192.168.56.11:2888:3888
-server.3=192.168.56.12:2888:3888
-
+server.1={{ zk_host_1 }}:{{ zk_leader_port }}:{{ zk_elect_port }}
+server.2={{ zk_host_2 }}:{{ zk_leader_port }}:{{ zk_elect_port }}
+server.3={{ zk_host_3 }}:{{ zk_leader_port }}:{{ zk_elect_port }}
