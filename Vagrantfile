@@ -95,7 +95,7 @@ Vagrant.configure("2") do |config|
 
 		mesos3.vm.provision "ansible" do |ansible|
 			ansible.verbose = "v"
-			ansible.playbook = "playbook-mesos2.yml"
+			ansible.playbook = "playbook-mesos3.yml"
 		end
 	end
 

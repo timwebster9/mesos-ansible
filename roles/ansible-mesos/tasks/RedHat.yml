@@ -8,11 +8,6 @@
 - name: Install os packages
   yum: name={{item}} state=present
   with_items:
-    - wget
-    - curl
-    - unzip
-    - libselinux-python 
-    - python-setuptools
     - mesosphere-zookeeper
     - mesos-{{mesos_version}}
     
