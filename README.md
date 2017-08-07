@@ -28,26 +28,33 @@ To enable registration, create a file called `register.sh` in the `scripts` dire
 
 To run with Vagrant:
 
-    vagrant up
-    
-To verify that the provisioning was successful, log into the slave box:
+`Vagrantfile.template` defines an entire High-availablity Mesos cluster consisting of:
 
-    vagrant ssh slave
-    
-and check the mesos slave service log:
+* 3 Zookeeper servers
+* 3 Mesos masters
+* 6 Mesos slaves (3 running on the master, 3 stand-alone)
 
-    sudo journalctl -u mesos-slave
-    
-you should see something like the following at the end (hit the 'end' key to scroll to the bottom):
+Due to what I think is a bug in Vagrant, I had to provision these individually.  Sometimes Vagrant hangs while bringing up the network interfaces.
 
-    Aug 03 08:47:34 slave mesos-slave[5970]: I0803 08:47:34.679967  5976 slave.cpp:915] New master detected at master@192.168.56.10:5050
-    Aug 03 08:47:34 slave mesos-slave[5970]: I0803 08:47:34.680043  5976 slave.cpp:936] No credentials provided. Attempting to register without authentication
-    Aug 03 08:47:34 slave mesos-slave[5970]: I0803 08:47:34.680063  5976 slave.cpp:947] Detecting new master
-    Aug 03 08:47:35 slave mesos-slave[5970]: I0803 08:47:35.138576  5976 slave.cpp:1115] Registered with master master@192.168.56.10:5050; given agent ID 69577748-d460-47d0-9350-3b0995fe97db-S0
-    Aug 03 08:47:35 slave mesos-slave[5970]: I0803 08:47:35.139562  5976 slave.cpp:1175] Forwarding total oversubscribed resources {}
-    Aug 03 08:47:35 slave mesos-slave[5970]: I0803 08:47:35.139691  5976 status_update_manager.cpp:184] Resuming sending status updates
-    Aug 03 08:48:34 slave mesos-slave[5970]: I0803 08:48:34.604652  5976 slave.cpp:5044] Current disk usage 10.97%. Max allowed age: 5.532068843782338days
-    
+### Mesos Masters
+Provision the masters first:
+ 
+* Copy the box configuration for `mesos1` VM into `Vagrantfile`.
+* In `playbook-master-slave.yml` specify the `mesos_ip` and `zookeeper_id`:
+* `mesos_ip` must match the IP of the VM in your Vagrantfile
+* `zookeeper_id` must be unique for each master
+* Also make sure that the the IP addresses you use match the `zk_host` entries.
+* Provision the VM with `vagrant up`
+* Repeat this process for 2 more masters (mesos2 and mesos3).
+
+### Mesos Slaves
+
+* Copy one of the slave VM config items into Vagrantfile
+* In `playbook-slave.yml` specify the `mesos_ip`
+* Make sure that the the IP addresses you use match the `zk_host` entries.
+* Provision the VM with `vagrant up`
+* Repeat with as many slaves as you like
+
 ### Ansible
 
 TODO

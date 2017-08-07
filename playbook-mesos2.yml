@@ -1,8 +1,0 @@
-- name: Mesos [master]
-  hosts: all
-  sudo: yes
-  roles:
-    - role: ansible-mesos
-      mesos_install_mode: master-slave
-      mesos_ip: 192.168.56.11
-      zookeeper_id: 2

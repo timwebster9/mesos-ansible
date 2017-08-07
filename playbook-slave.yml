@@ -1,8 +1,10 @@
 - name: Mesos [slave]
   hosts: all
-  sudo: yes
+  become: yes
   roles:
     - role: ansible-mesos
       mesos_install_mode: slave
-      mesos_master: 10.113.140.187
-      mesos_ip: 192.168.56.11
+      mesos_ip: 192.168.56.15
+      zk_host_1: 192.168.56.10
+      zk_host_2: 192.168.56.11
+      zk_host_3: 192.168.56.12
